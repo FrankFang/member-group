@@ -1,0 +1,21 @@
+{
+  "name": "member-group",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx src/bot.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@tsconfig/node-lts": "20.1.1",
+    "@types/node": "20.11.19",
+    "tsx": "4.7.1"
+  },
+  "dependencies": {
+    "grammy": "1.21.1"
+  }
+}
