@@ -1,5 +1,7 @@
 import { Bot } from "grammy"
 import { SocksProxyAgent } from "socks-proxy-agent";
+import { run } from "@grammyjs/runner";
+
 
 const socksAgent = new SocksProxyAgent(`socks://localhost:${process.env.PROXY_PORT}`);
 
@@ -13,9 +15,13 @@ const bot = new Bot(process.env.BOT_TOKEN || '', {
 })
 
 bot.on("message:text", (ctx) => {
-  console.log('hi')
+  console.log(ctx.message.text)
   ctx.reply("Echo: " + ctx.message.text)
 });
 
-bot.start();
+const handle = run(bot);
 console.log('Bot is running')
+
+handle?.task?.()?.then(() => {
+  console.log("Bot done processing!");
+});

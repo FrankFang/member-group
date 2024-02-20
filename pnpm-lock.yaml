@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@grammyjs/runner':
+    specifier: 2.0.3
+    version: 2.0.3(grammy@1.21.1)
   grammy:
     specifier: 1.21.1
     version: 1.21.1
@@ -231,6 +234,16 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@grammyjs/runner@2.0.3(grammy@1.21.1):
+    resolution: {integrity: sha512-nckmTs1dPWfVQteK9cxqxzE+0m1VRvluLWB8UgFzsjg62w3qthPJt0TYtJBEdG7OedvfQq4vnFAyE6iaMkR42A==}
+    engines: {node: '>=12.20.0 || >=14.13.1'}
+    peerDependencies:
+      grammy: ^1.13.1
+    dependencies:
+      abort-controller: 3.0.0
+      grammy: 1.21.1
+    dev: false
 
   /@grammyjs/types@3.5.2:
     resolution: {integrity: sha512-KZlJcOdgD8N6SMIHWfwmb11L5/L2+rptWBxCexbzNCry/wfLXFFGFniyUrySnvFo+cWMxgy5GuImwY3mhUrP8g==}

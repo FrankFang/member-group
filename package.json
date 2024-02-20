@@ -16,6 +16,7 @@
     "tsx": "4.7.1"
   },
   "dependencies": {
+    "@grammyjs/runner": "2.0.3",
     "grammy": "1.21.1",
     "socks-proxy-agent": "8.0.2"
   }
