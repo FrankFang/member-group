@@ -1,7 +1,7 @@
 import { Bot } from 'grammy'
 import { SocksProxyAgent } from 'socks-proxy-agent'
-import { useMenus } from 'src/initializers/use_menus'
-import { useSession } from 'src/initializers/use_session'
+import { useMenus } from 'src/initializers/init_menus'
+import { useSession } from 'src/initializers/init_session'
 import { BotContext } from 'src/lib/session'
 import { getPlanMenuText, planMenu } from 'src/menus/plan/plan_menu'
 
