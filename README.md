@@ -7,10 +7,17 @@
 
 ## 开发
 
-```
+```bash
 pnpm i
 pnpm dev
 ```
 
+### 设置 bot description
+
+打开 `src/set_description.ts` 进行编辑，然后运行
+
+```bash
+pnpm set_description
+```
 
 ## 部署

@@ -1,27 +1,25 @@
-import { Bot } from "grammy"
-import { SocksProxyAgent } from "socks-proxy-agent";
-import { run } from "@grammyjs/runner";
+import { Bot } from 'grammy'
+import { SocksProxyAgent } from 'socks-proxy-agent'
+import { useMenus } from 'src/initializers/use_menus'
+import { useSession } from 'src/initializers/use_session'
+import { BotContext } from 'src/lib/session'
+import { getPlanMenuText, planMenu } from 'src/menus/plan/plan_menu'
 
-
-const socksAgent = new SocksProxyAgent(`socks://localhost:${process.env.PROXY_PORT}`);
-
-const bot = new Bot(process.env.BOT_TOKEN || '', {
-  client: process.env.NODE_ENV === "production" ? {} : {
-    baseFetchConfig: {
-      agent: socksAgent,
-      compress: true,
-    },
-  },
+export const bot = new Bot<BotContext>(process.env.BOT_TOKEN || '', {
+    client:
+        process.env.NODE_ENV === 'production'
+            ? {}
+            : {
+                  baseFetchConfig: {
+                      agent: new SocksProxyAgent(`socks://localhost:${process.env.PROXY_PORT}`),
+                      compress: true,
+                  },
+              },
 })
 
-bot.on("message:text", (ctx) => {
-  console.log(ctx.message.text)
-  ctx.reply("Echo: " + ctx.message.text)
-});
+useMenus(bot)
+useSession(bot)
 
-const handle = run(bot);
-console.log('Bot is running')
-
-handle?.task?.()?.then(() => {
-  console.log("Bot done processing!");
-});
+bot.command('start', async (ctx) => {
+    await ctx.reply(getPlanMenuText(), { reply_markup: planMenu })
+})

@@ -1,6 +1,17 @@
 {
   "extends": "@tsconfig/node-lts/tsconfig.json",
-  "compilerOptions": {},
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "src/*": [
+        "src/*"
+      ]
+    }
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
