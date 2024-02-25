@@ -1,4 +1,6 @@
 import { Menu } from '@grammyjs/menu'
+import { BotContext } from 'src/lib/session'
+import { getPaymentMenuText, paymentMethodMenu } from 'src/menus/payment_method/payment_method_menu'
 
 export const getPlanMenuText = () =>
     `
@@ -24,8 +26,17 @@ Please select your subscription plan:
 `.trim()
 
 export const planMenu = new Menu('planMenu')
-    .text('Monthly: $49', (ctx) => ctx.reply('You pressed A!'))
+    .text('Monthly: $49', onChoosePlan('monthly'))
     .row()
-    .text('Quarterly: $98 (30% off)', (ctx) => ctx.reply('You pressed B!'))
+    .text('Quarterly: $98 (30% off)', onChoosePlan('quarterly'))
     .row()
-    .text('Yearly: $298 (50% off)', (ctx) => ctx.reply('You pressed C!'))
+    .text('Yearly: $298 (50% off)', (ctx) => onChoosePlan('yearly')(ctx))
+planMenu.register(paymentMethodMenu)
+
+function onChoosePlan(plan: 'monthly' | 'quarterly' | 'yearly') {
+    return async (ctx: BotContext) => {
+        console.log('session', ctx.session)
+        ctx.session.plan = plan
+        await ctx.reply(getPaymentMenuText(ctx), { reply_markup: paymentMethodMenu })
+    }
+}

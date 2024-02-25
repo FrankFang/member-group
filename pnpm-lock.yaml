@@ -11,6 +11,9 @@ dependencies:
   '@grammyjs/runner':
     specifier: 2.0.3
     version: 2.0.3(grammy@1.21.1)
+  dayjs:
+    specifier: 1.11.10
+    version: 1.11.10
   grammy:
     specifier: 1.21.1
     version: 1.21.1
@@ -285,6 +288,10 @@ packages:
       debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /dayjs@1.11.10:
+    resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
     dev: false
 
   /debug@4.3.4:
