@@ -1,9 +1,10 @@
-import { Bot, Context, session, SessionFlavor } from 'grammy'
-
 export interface SessionData {
+    chatId?: number
     plan?: 'monthly' | 'quarterly' | 'yearly'
+    token?: 'USDT' | 'USDC'
+    tokenAddress?: string
+    transactionHash?: string
 }
-export type BotContext = Context & SessionFlavor<SessionData>
 
 export const initial = (): SessionData => {
     return { plan: undefined }

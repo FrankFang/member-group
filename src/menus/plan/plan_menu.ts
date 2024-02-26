@@ -1,4 +1,5 @@
 import { Menu } from '@grammyjs/menu'
+import { replaceMenu } from 'src/lib/menu_helper'
 import { BotContext } from 'src/lib/session'
 import { getPaymentMenuText, paymentMethodMenu } from 'src/menus/payment_method/payment_method_menu'
 
@@ -25,7 +26,7 @@ For any assistance, please reach out to the admin @lookonchainsupport.
 Please select your subscription plan:
 `.trim()
 
-export const planMenu = new Menu('planMenu')
+export const planMenu = new Menu<BotContext>('planMenu')
     .text('Monthly: $49', onChoosePlan('monthly'))
     .row()
     .text('Quarterly: $98 (30% off)', onChoosePlan('quarterly'))
@@ -37,6 +38,6 @@ function onChoosePlan(plan: 'monthly' | 'quarterly' | 'yearly') {
     return async (ctx: BotContext) => {
         console.log('session', ctx.session)
         ctx.session.plan = plan
-        await ctx.reply(getPaymentMenuText(ctx), { reply_markup: paymentMethodMenu })
+        await replaceMenu(ctx, getPaymentMenuText(ctx), paymentMethodMenu)
     }
 }
