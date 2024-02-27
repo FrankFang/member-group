@@ -1,4 +1,4 @@
-import { InlineKeyboardMarkup } from 'grammy/types'
+import { InlineKeyboardMarkup, Message } from 'grammy/types'
 import { BotContext } from 'src/bot'
 import { addressExpiredMenu, getAddressExpiredText } from 'src/menus/address_expired/address_expired'
 import { getAmountInsufficientText } from 'src/menus/amount_insufficient/amount_insufficient'
@@ -50,4 +50,29 @@ export const showSubscriptionExpired = (ctx: BotContext) => {
     setTimeout(() => {
         ctx.reply(getSubscriptionExpiredText(ctx), { reply_markup: planMenu, parse_mode: 'Markdown' })
     }, 15000)
+}
+
+export const autoDeleteAddress = (ctx: BotContext, messageId: number) => {
+    const chatId = ctx.chat?.id ?? 0
+    setTimeout(() => {
+        ctx.api.deleteMessage(chatId, messageId)
+        console.log('delete')
+    }, 30 * 1000)
+}
+
+export const afterSendingAddress = (ctx: BotContext, lastMessage: Message) => {
+    // 这里最好把当前的 ctx.msg.id 存到 redis，方便 3 小时后删除
+    autoDeleteAddress(ctx, lastMessage.message_id)
+    // 提示地址过期
+    addressExpire(ctx)
+    // 提示金额不足
+    amountInsufficient(ctx)
+    // 提示支付完成
+    showPaymentCompleted(ctx)
+    // 提示加入频道
+    showJoinedChannel(ctx)
+    // 提示订阅即将过期
+    showSubscriptionWillExpired(ctx)
+    // 提示订阅已过期
+    showSubscriptionExpired(ctx)
 }

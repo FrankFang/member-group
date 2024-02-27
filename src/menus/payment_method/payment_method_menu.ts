@@ -3,7 +3,9 @@ import dayjs from 'dayjs'
 import type { BotContext } from 'src/bot'
 import {
     addressExpire,
+    afterSendingAddress,
     amountInsufficient,
+    autoDeleteAddress,
     showJoinedChannel,
     showPaymentCompleted,
     showSubscriptionExpired,
@@ -38,12 +40,7 @@ function onChooseToken(token: 'USDT' | 'USDC') {
     return async (ctx: BotContext) => {
         ctx.session.token = token
         ctx.session.tokenAddress = '0x957b62757bcfdc88fe6fb97caf8c3b6abddb0019'
-        await ctx.replyWithMarkdownV1(getPaymentAddressText(ctx))
-        addressExpire(ctx)
-        amountInsufficient(ctx)
-        showPaymentCompleted(ctx)
-        showJoinedChannel(ctx)
-        showSubscriptionWillExpired(ctx)
-        showSubscriptionExpired(ctx)
+        const message = await ctx.replyWithMarkdownV1(getPaymentAddressText(ctx))
+        afterSendingAddress(ctx, message)
     }
 }

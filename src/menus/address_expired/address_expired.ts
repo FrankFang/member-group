@@ -3,7 +3,9 @@ import { on } from 'events'
 import { BotContext } from 'src/bot'
 import {
     addressExpire,
+    afterSendingAddress,
     amountInsufficient,
+    autoDeleteAddress,
     showJoinedChannel,
     showPaymentCompleted,
     showSubscriptionExpired,
@@ -26,11 +28,6 @@ export const addressExpiredMenu = new Menu<BotContext>('addressExpiredMenu').tex
 )
 
 async function onResendAddress(ctx: BotContext) {
-    ctx.replyWithMarkdownV1(getPaymentAddressText(ctx))
-    addressExpire(ctx)
-    amountInsufficient(ctx)
-    showPaymentCompleted(ctx)
-    showJoinedChannel(ctx)
-    showSubscriptionWillExpired(ctx)
-    showSubscriptionExpired(ctx)
+    await ctx.replyWithMarkdownV1(getPaymentAddressText(ctx))
+    afterSendingAddress(ctx)
 }
