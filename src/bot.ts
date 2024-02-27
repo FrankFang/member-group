@@ -10,23 +10,22 @@ import { getPlanMenuText, planMenu } from 'src/menus/plan/plan_menu'
 export type BotContext = Context & SessionFlavor<SessionData> & ParseModeFlavor<Context>
 
 export const bot = new Bot<BotContext>(process.env.BOT_TOKEN || '', {
-    client:
-        process.env.NODE_ENV === 'production'
-            ? {}
-            : {
-                  baseFetchConfig: {
-                      agent: new SocksProxyAgent(`socks://localhost:${process.env.PROXY_PORT}`),
-                      compress: true,
-                  },
+    client: !process.env.PROXY_PORT
+        ? {}
+        : {
+              baseFetchConfig: {
+                  agent: new SocksProxyAgent(`socks://localhost:${process.env.PROXY_PORT}`),
+                  compress: true,
               },
+          },
 })
 
 // 不要随意改动 init 的顺序
 initParseMode(bot)
 initSession(bot)
 initMenus(bot)
-
 bot.command('start', async (ctx) => {
+    console.log('start')
     ctx.session.chatId = ctx.chat?.id
     await ctx.reply(getPlanMenuText(), { reply_markup: planMenu })
 })

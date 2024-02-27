@@ -1,12 +1,16 @@
 {
   "extends": "@tsconfig/node-lts/tsconfig.json",
   "compilerOptions": {
+    "outDir": "dist",
     "strict": true,
     "noImplicitAny": true,
-    "baseUrl": ".",
+    "baseUrl": "src",
     "paths": {
+      "@/*": [
+        "./*"
+      ],
       "src/*": [
-        "src/*"
+        "./*"
       ]
     }
   },

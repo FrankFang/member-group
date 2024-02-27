@@ -21,3 +21,6 @@ pnpm set_description
 ```
 
 ## 部署
+
+1. 在 .env 文件或者在 bashrc 文件中设置环境变量 BOT_TOKEN 和 PROXY_PORT
+2. 运行 pnpm start
