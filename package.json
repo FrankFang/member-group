@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "tsc src/main.ts",
     "dev": "tsx watch --env-file=.env.local src/main.ts",
     "set_description": "tsx --env-file=.env.local src/set_description.ts",
     "set_menu": "tsx --env-file=.env.local src/set_menu.ts",
@@ -15,7 +16,8 @@
   "devDependencies": {
     "@tsconfig/node-lts": "20.1.1",
     "@types/node": "20.11.19",
-    "tsx": "4.7.1"
+    "tsx": "4.7.1",
+    "typescript": "5.3.3"
   },
   "dependencies": {
     "@grammyjs/menu": "^1.2.1",

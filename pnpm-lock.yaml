@@ -34,6 +34,9 @@ devDependencies:
   tsx:
     specifier: 4.7.1
     version: 4.7.1
+  typescript:
+    specifier: 5.3.3
+    version: 5.3.3
 
 packages:
 
@@ -454,6 +457,12 @@ packages:
       get-tsconfig: 4.7.2
     optionalDependencies:
       fsevents: 2.3.3
+    dev: true
+
+  /typescript@5.3.3:
+    resolution: {integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
     dev: true
 
   /undici-types@5.26.5:

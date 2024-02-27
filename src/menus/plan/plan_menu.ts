@@ -1,6 +1,6 @@
 import { Menu } from '@grammyjs/menu'
+import { BotContext } from 'src/bot'
 import { replaceMenu } from 'src/lib/menu_helper'
-import { BotContext } from 'src/lib/session'
 import { getPaymentMenuText, paymentMethodMenu } from 'src/menus/payment_method/payment_method_menu'
 
 export const getPlanMenuText = () =>

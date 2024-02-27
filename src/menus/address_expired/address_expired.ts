@@ -28,6 +28,6 @@ export const addressExpiredMenu = new Menu<BotContext>('addressExpiredMenu').tex
 )
 
 async function onResendAddress(ctx: BotContext) {
-    await ctx.replyWithMarkdownV1(getPaymentAddressText(ctx))
-    afterSendingAddress(ctx)
+    const message = await ctx.replyWithMarkdownV1(getPaymentAddressText(ctx))
+    afterSendingAddress(ctx, message)
 }
