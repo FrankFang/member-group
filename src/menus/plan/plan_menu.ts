@@ -1,10 +1,13 @@
-import { Menu } from '@grammyjs/menu'
+import { apiGetPlans } from '@/api/api'
+import { Menu, MenuRange } from '@grammyjs/menu'
 import { BotContext } from 'src/bot'
 import { replaceMenu } from 'src/lib/menu_helper'
 import { getPaymentMenuText, paymentMethodMenu } from 'src/menus/payment_method/payment_method_menu'
 
-export const getPlanMenuText = () =>
-    `
+export const getPlanMenuText = async (ctx: BotContext) => {
+    const result = await apiGetPlans()
+    ctx.session.orderTypes = result.data.order_types
+    return `
 Welcome to Lookonchain Pro Channel!
 
 What You Can Get in This Channel:
@@ -25,19 +28,18 @@ For any assistance, please reach out to the admin @lookonchainsupport.
 
 Please select your subscription plan:
 `.trim()
+}
 
-export const planMenu = new Menu<BotContext>('planMenu')
-    .text('Monthly: $49', onChoosePlan('monthly'))
-    .row()
-    .text('Quarterly: $98 (30% off)', onChoosePlan('quarterly'))
-    .row()
-    .text('Yearly: $298 (50% off)', (ctx) => onChoosePlan('yearly')(ctx))
+export const planMenu = new Menu<BotContext>('planMenu').dynamic((ctx, range) => {
+    ctx.session.orderTypes?.forEach((orderType) => {
+        range.text(orderType.name, onChoosePlan(orderType.type)).row()
+    })
+})
 planMenu.register(paymentMethodMenu)
 
-function onChoosePlan(plan: 'monthly' | 'quarterly' | 'yearly') {
+function onChoosePlan(type: number) {
     return async (ctx: BotContext) => {
-        console.log('session', ctx.session)
-        ctx.session.plan = plan
+        ctx.session.orderType = type
         await replaceMenu(ctx, getPaymentMenuText(ctx), paymentMethodMenu)
     }
 }

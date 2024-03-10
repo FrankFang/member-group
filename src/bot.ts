@@ -25,9 +25,9 @@ initParseMode(bot)
 initSession(bot)
 initMenus(bot)
 bot.command('start', async (ctx) => {
-    console.log('start')
     ctx.session.chatId = ctx.chat?.id
-    await ctx.reply(getPlanMenuText(), { reply_markup: planMenu })
+    const text = await getPlanMenuText(ctx)
+    await ctx.reply(text, { reply_markup: planMenu })
 })
 
 bot.catch((error) => {

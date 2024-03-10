@@ -25,6 +25,7 @@
     "@grammyjs/menu": "^1.2.1",
     "@grammyjs/parse-mode": "1.9.0",
     "@grammyjs/runner": "2.0.3",
+    "axios": "1.6.7",
     "dayjs": "1.11.10",
     "grammy": "1.21.1",
     "socks-proxy-agent": "8.0.2"

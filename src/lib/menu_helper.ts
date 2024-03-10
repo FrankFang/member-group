@@ -56,7 +56,6 @@ export const autoDeleteAddress = (ctx: BotContext, messageId: number) => {
     const chatId = ctx.chat?.id ?? 0
     setTimeout(() => {
         ctx.api.deleteMessage(chatId, messageId)
-        console.log('delete')
     }, 30 * 1000)
 }
 
@@ -75,4 +74,16 @@ export const afterSendingAddress = (ctx: BotContext, lastMessage: Message) => {
     showSubscriptionWillExpired(ctx)
     // 提示订阅已过期
     showSubscriptionExpired(ctx)
+}
+
+export const getSelectedPlan = (ctx: BotContext) => {
+    const { orderType, orderTypes } = ctx.session
+    const selected = orderTypes?.find((o) => o.type === orderType)
+    if (!selected) return null
+    return selected
+}
+export const getSelectedToken = (ctx: BotContext) => {
+    const selectedPlan = getSelectedPlan(ctx)
+    const selectedToken = selectedPlan?.tokens.find((t) => t.name === ctx.session.tokenName)
+    return selectedToken
 }

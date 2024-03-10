@@ -1,11 +1,12 @@
 export interface SessionData {
     chatId?: number
-    plan?: 'monthly' | 'quarterly' | 'yearly'
-    token?: 'USDT' | 'USDC'
+    orderTypes?: Api.OrderType[]
+    orderType?: number
+    tokenName?: string
     tokenAddress?: string
     transactionHash?: string
 }
 
 export const initial = (): SessionData => {
-    return { plan: undefined }
+    return {}
 }
