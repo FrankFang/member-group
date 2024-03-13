@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc && cross-env NODE_ENV=production TS_NODE_BASEURL=./dist node -r tsconfig-paths/register --env-file=.env  dist/main.js",
-    "dev": "tsx watch --env-file=.env.local src/main.ts",
+    "dev": "tsx watch --clear-screen=false --env-file=.env.local src/main.ts",
     "set_description": "tsx --env-file=.env.local src/set_description.ts",
     "set_menu": "tsx --env-file=.env.local src/set_menu.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -27,7 +27,9 @@
     "@grammyjs/runner": "2.0.3",
     "axios": "1.6.7",
     "dayjs": "1.11.10",
+    "eventsource": "2.0.2",
     "grammy": "1.21.1",
-    "socks-proxy-agent": "8.0.2"
+    "socks-proxy-agent": "8.0.2",
+    "telegraf-middleware-console-time": "2.1.0"
   }
 }

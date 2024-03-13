@@ -1,3 +1,4 @@
+import { initLog } from '@/initializers/init_log'
 import { ParseModeFlavor } from '@grammyjs/parse-mode'
 import { Bot, Context, SessionFlavor } from 'grammy'
 import { SocksProxyAgent } from 'socks-proxy-agent'
@@ -21,6 +22,7 @@ export const bot = new Bot<BotContext>(process.env.BOT_TOKEN || '', {
 })
 
 // 不要随意改动 init 的顺序
+initLog(bot)
 initParseMode(bot)
 initSession(bot)
 initMenus(bot)
