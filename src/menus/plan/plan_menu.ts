@@ -39,6 +39,7 @@ planMenu.register(paymentMethodMenu)
 
 function onChoosePlan(type: number) {
     return async (ctx: BotContext) => {
+        console.log('type', type)
         ctx.session.orderType = type
         await replaceMenu(ctx, getPaymentMenuText(ctx), paymentMethodMenu)
     }

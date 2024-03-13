@@ -1,4 +1,5 @@
 import { initLog } from '@/initializers/init_log'
+import { initSse } from '@/initializers/init_sse'
 import { ParseModeFlavor } from '@grammyjs/parse-mode'
 import { Bot, Context, SessionFlavor } from 'grammy'
 import { SocksProxyAgent } from 'socks-proxy-agent'
@@ -26,6 +27,7 @@ initLog(bot)
 initParseMode(bot)
 initSession(bot)
 initMenus(bot)
+initSse(bot)
 bot.command('start', async (ctx) => {
     ctx.session.chatId = ctx.chat?.id
     const text = await getPlanMenuText(ctx)

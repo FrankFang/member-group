@@ -19,6 +19,7 @@ const map: Record<number, [string, () => string]> = {
     1: ['Monthly', () => dayjs().add(1, 'month').format('MMM D')],
     2: ['Quarterly', () => dayjs().add(3, 'month').format('MMM D')],
     3: ['Yearly', () => dayjs().add(1, 'year').format('MMM D')],
+    4: ['Test', () => dayjs().add(10, 'minutes').format('MMM D')],
 }
 export const getPaymentMenuText = (ctx: BotContext) => {
     const { orderType, orderTypes } = ctx.session
@@ -49,6 +50,5 @@ function onChooseToken(token: string) {
         ctx.session.tokenAddress = selectedToken?.token
         const text = await getPaymentAddressText(ctx)
         const message = await ctx.replyWithMarkdownV1(text)
-        afterSendingAddress(ctx, message)
     }
 }
