@@ -24,7 +24,11 @@ export const initSse = (bot: Bot<BotContext>) => {
             case 'invite_link':
             case 'plan_expired_24h':
             case 'plan_expired':
-                bot.api.sendMessage(data.to, data.message)
+                try {
+                    bot.api.sendMessage(data.to, data.message)
+                } catch (err) {
+                    console.log(err)
+                }
                 break
             case 'heartbeat':
                 console.log('heartbeat')
