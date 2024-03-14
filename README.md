@@ -12,12 +12,6 @@ pnpm i
 pnpm dev
 ```
 
-## Redis
-
-```bash
-docker run --name redis-1 -d -p 6379:6379 redis:7.2.4 redis-server --save 60 1 --loglevel warning
-```
-
 ### 设置 bot description
 
 打开 `src/set_description.ts` 进行编辑，然后运行
