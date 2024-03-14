@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && cross-env NODE_ENV=production TS_NODE_BASEURL=./dist nodemon -r tsconfig-paths/register --env-file=.env  dist/main.js",
+    "start": "tsc && cross-env NODE_ENV=production TS_NODE_BASEURL=./dist node -r tsconfig-paths/register --env-file=.env  dist/main.js",
     "dev": "tsx watch --clear-screen=false --env-file=.env.local src/main.ts",
     "set_description": "tsx --env-file=.env.local src/set_description.ts",
     "set_menu": "tsx --env-file=.env.local src/set_menu.ts",
