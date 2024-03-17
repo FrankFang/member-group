@@ -6,7 +6,6 @@ import { getPaymentMenuText, paymentMethodMenu } from 'src/menus/payment_method/
 
 export const getPlanMenuText = async (ctx: BotContext) => {
     const result = await apiGetPlans()
-    console.log(result)
     ctx.session.orderTypes = result.order_types
     return `
 Welcome to Lookonchain Pro Channel!
@@ -40,7 +39,6 @@ planMenu.register(paymentMethodMenu)
 
 function onChoosePlan(type: number) {
     return async (ctx: BotContext) => {
-        console.log('type', type)
         ctx.session.orderType = type
         await replaceMenu(ctx, getPaymentMenuText(ctx), paymentMethodMenu)
     }
