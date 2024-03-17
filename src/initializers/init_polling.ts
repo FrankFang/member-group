@@ -1,15 +1,7 @@
 import { BotContext } from '@/bot'
-import EventSource from 'eventsource'
 import { Bot } from 'grammy'
 import { httpClient } from '@/lib/http_client'
 
-type Event = {
-    type: string
-    lastEventId: string
-    origin: string
-    // data: { id: number; to: number; type: string; message: string }
-    data: string
-}
 type PollingResponse = {
     id: number
     message: null,
@@ -20,7 +12,6 @@ type PollingResponse = {
     to: number
 }
 
-let eventSource: EventSource
 export const initPolling = (bot: Bot<BotContext>) => {
     const botId = getBotId()
     const url = process.env.API_BASE_URL + `/subscription/notification/pull`
