@@ -6,7 +6,8 @@ import { getPaymentMenuText, paymentMethodMenu } from 'src/menus/payment_method/
 
 export const getPlanMenuText = async (ctx: BotContext) => {
     const result = await apiGetPlans()
-    ctx.session.orderTypes = result.data.order_types
+    console.log(result)
+    ctx.session.orderTypes = result.order_types
     return `
 Welcome to Lookonchain Pro Channel!
 

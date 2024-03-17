@@ -10,7 +10,7 @@ export const getPaymentAddressText = async (ctx: BotContext) => {
         tokenAddress: token?.token ?? '',
         type: plan?.type ?? 0,
     })
-    const address = result.data.wallet
+    const address = result.wallet
     const amount = token?.amount
     const transactionStatus = 'https://example.com/'
     return `
