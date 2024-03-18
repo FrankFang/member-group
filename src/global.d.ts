@@ -16,7 +16,7 @@ declare namespace Api {
         token: string
         amount: number
     }
-    interface PaymentTarget {
+    interface Order {
         wallet: string
         token: string
         amount: number

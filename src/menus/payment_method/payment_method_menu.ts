@@ -1,18 +1,9 @@
+import { cancelPaymentMenu } from '@/menus/payment_method/cancel_payment_menu'
 import { Menu } from '@grammyjs/menu'
 import dayjs from 'dayjs'
 import type { BotContext } from 'src/bot'
-import {
-    addressExpire,
-    afterSendingAddress,
-    amountInsufficient,
-    autoDeleteAddress,
-    getSelectedPlan,
-    showJoinedChannel,
-    showPaymentCompleted,
-    showSubscriptionExpired,
-    showSubscriptionWillExpired,
-} from 'src/lib/menu_helper'
-import { addressExpiredMenu, getAddressExpiredText } from 'src/menus/address_expired/address_expired'
+import { getSelectedPlan } from 'src/lib/menu_helper'
+import { addressExpiredMenu } from 'src/menus/address_expired/address_expired'
 import { getPaymentAddressText } from 'src/menus/payment_address/payment_address'
 
 const map: Record<number, [string, () => string]> = {
@@ -28,10 +19,7 @@ export const getPaymentMenuText = (ctx: BotContext) => {
     return `
 Your Subscription Plan:
 *${plan.name}*
-Expire Date:
-*${map[orderType ?? 1][1]()}*
-Please select a payment token:
-`
+Please select a payment token:`.trim()
 }
 export const paymentMethodMenu = new Menu<BotContext>('paymentMethodMenu').dynamic((ctx, range) => {
     const selected = getSelectedPlan(ctx)
@@ -40,7 +28,7 @@ export const paymentMethodMenu = new Menu<BotContext>('paymentMethodMenu').dynam
         range.text(token.name, onChooseToken(token.name)).row()
     })
 })
-paymentMethodMenu.register(addressExpiredMenu)
+paymentMethodMenu.register(cancelPaymentMenu)
 
 function onChooseToken(token: string) {
     return async (ctx: BotContext) => {
@@ -49,6 +37,6 @@ function onChooseToken(token: string) {
         const selectedToken = selectedPlan?.tokens.find((t) => t.token === token)
         ctx.session.tokenAddress = selectedToken?.token
         const text = await getPaymentAddressText(ctx)
-        const message = await ctx.replyWithMarkdownV1(text)
+        await ctx.reply(text, { parse_mode: 'Markdown', reply_markup: cancelPaymentMenu })
     }
 }

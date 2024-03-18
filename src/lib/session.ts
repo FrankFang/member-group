@@ -4,6 +4,8 @@ export interface SessionData {
     orderType?: number
     tokenName?: string
     tokenAddress?: string
+    walletToCancel?: string
+    order?: Api.Order
     transactionHash?: string
 }
 

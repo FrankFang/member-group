@@ -1,18 +1,6 @@
 import { Menu } from '@grammyjs/menu'
-import { on } from 'events'
 import { BotContext } from 'src/bot'
-import {
-    addressExpire,
-    afterSendingAddress,
-    amountInsufficient,
-    autoDeleteAddress,
-    showJoinedChannel,
-    showPaymentCompleted,
-    showSubscriptionExpired,
-    showSubscriptionWillExpired,
-} from 'src/lib/menu_helper'
 import { getPaymentAddressText } from 'src/menus/payment_address/payment_address'
-import { paymentMethodMenu } from 'src/menus/payment_method/payment_method_menu'
 
 export const getAddressExpiredText = (ctx: BotContext) => {
     return `
@@ -30,5 +18,4 @@ export const addressExpiredMenu = new Menu<BotContext>('addressExpiredMenu').tex
 async function onResendAddress(ctx: BotContext) {
     const text = await getPaymentAddressText(ctx)
     const message = await ctx.replyWithMarkdownV1(text)
-    afterSendingAddress(ctx, message)
 }

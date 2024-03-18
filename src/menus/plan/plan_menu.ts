@@ -4,11 +4,9 @@ import { BotContext } from 'src/bot'
 import { replaceMenu } from 'src/lib/menu_helper'
 import { getPaymentMenuText, paymentMethodMenu } from 'src/menus/payment_method/payment_method_menu'
 
-export const getPlanMenuText = async (ctx: BotContext) => {
-    const result = await apiGetPlans()
-    ctx.session.orderTypes = result.order_types
+export const getPlanMenuText = () => {
     return `
-Welcome to Lookonchain Pro Channel!
+Welcome to Lookonchain Pro Channel!🎉
 
 What You Can Get in This Channel:
 
@@ -20,18 +18,20 @@ c. No chatting in the channel.
 
 d. Try our beta tool for free when it goes live.
 
-e. More alerts from SmartMoney.
+e. More alerts
+
+- Transfers of SmartMoney and Famous Wallets
+- Large transfers from/to CEX
 
 f. We will interpret transactions for you when you comment.
-
-For any assistance, please reach out to the admin @lookonchainsupport.
 
 Please select your subscription plan:
 `.trim()
 }
 
-export const planMenu = new Menu<BotContext>('planMenu').dynamic((ctx, range) => {
-    ctx.session.orderTypes?.forEach((orderType) => {
+export const planMenu = new Menu<BotContext>('planMenu').dynamic(async (ctx, range) => {
+    const orderTypes = (await apiGetPlans()).order_types
+    orderTypes.forEach((orderType) => {
         range.text(orderType.name, onChoosePlan(orderType.type)).row()
     })
 })
@@ -40,6 +40,7 @@ planMenu.register(paymentMethodMenu)
 function onChoosePlan(type: number) {
     return async (ctx: BotContext) => {
         ctx.session.orderType = type
+        ctx.session.walletToCancel = undefined
         await replaceMenu(ctx, getPaymentMenuText(ctx), paymentMethodMenu)
     }
 }

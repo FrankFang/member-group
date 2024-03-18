@@ -8,6 +8,7 @@ import { initSession } from 'src/initializers/init_session'
 import type { SessionData } from 'src/lib/session'
 import { getPlanMenuText, planMenu } from 'src/menus/plan/plan_menu'
 import { initPolling } from './initializers/init_polling'
+import { apiGetPlans } from '@/api/api'
 
 export type BotContext = Context & SessionFlavor<SessionData> & ParseModeFlavor<Context>
 
@@ -29,9 +30,9 @@ initSession(bot)
 initMenus(bot)
 initPolling(bot)
 bot.command('start', async (ctx) => {
-    console.log('start')
     ctx.session.chatId = ctx.chat?.id
-    const text = await getPlanMenuText(ctx)
+    ctx.session.orderTypes = (await apiGetPlans()).order_types
+    const text = getPlanMenuText()
     await ctx.reply(text, { reply_markup: planMenu })
 })
 

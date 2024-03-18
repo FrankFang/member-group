@@ -1,5 +1,6 @@
 import { apiCreateOrder } from '@/api/api'
 import { getSelectedPlan, getSelectedToken } from '@/lib/menu_helper'
+import dayjs from 'dayjs'
 import { BotContext } from 'src/bot'
 
 export const getPaymentAddressText = async (ctx: BotContext) => {
@@ -10,16 +11,17 @@ export const getPaymentAddressText = async (ctx: BotContext) => {
         tokenAddress: token?.token ?? '',
         type: plan?.type ?? 0,
     })
+    ctx.session.order = result
     const address = result.wallet
     const amount = token?.amount
-    const transactionStatus = 'https://example.com/'
+    const threeHoursLater = dayjs().add(3, 'hour').format('MMM D, YYYY HH:mm:ss')
     return `
-Please send ${amount} ETH (Ether) (exact amount, after commissions) to the following address:
+Please send ${amount} USDT(BEP-20) to the following address on BSC Network:
 
-\`${address}\`
+[${address}](https://bscscan.com/address/${address})
 
-This unique address is valid only for 3 hours. Your payment will be processed by CoinPayments. You can check your transaction status here:
+This unique address is valid only for \`3 hours\` and will expire at ${threeHoursLater}.
 
-[Transaction Status](${transactionStatus})
+❗️Please do not transfer tokens to this address after ${threeHoursLater}.
 `.trim()
 }
