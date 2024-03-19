@@ -12,9 +12,12 @@ type PollingResponse =
       }
     | {
           id: number
-          message: string
-          type: string
-          to: number
+          message: {
+              type: string
+              to: number
+              message: string
+              id: number
+          }
       }
 
 export const initPolling = (bot: Bot<BotContext>) => {
@@ -23,33 +26,55 @@ export const initPolling = (bot: Bot<BotContext>) => {
     let timer
     const run = async () => {
         const result = await httpClient.get<PollingResponse>(url, { botid: botId })
+        console.log(result)
         if (result.message === null) {
             timer = setTimeout(run, 3000)
             return
         }
         try {
-            switch (result.type) {
+            switch (result.message.type) {
                 case 'half_send':
                 case 'all_send':
                 case 'invite_link':
                 case 'user_joined':
-                    await bot.api.sendMessage(result.to, result.message, { parse_mode: 'HTML' })
+                    await bot.api.sendMessage(result.message.to, result.message.message, { parse_mode: 'HTML' })
                     break
                 case 'plan_expired_24h':
                 case 'plan_expired':
-                    await bot.api.sendMessage(result.to, result.message, { parse_mode: 'HTML', reply_markup: planMenu })
+                    const orderTypes = (await apiGetPlans()).order_types
+                    await bot.api.sendMessage(result.message.to, result.message.message, {
+                        parse_mode: 'HTML',
+                        reply_markup: {
+                            inline_keyboard: orderTypes.map((orderType) => [
+                                {
+                                    text: orderType.name,
+                                    callback_data: `choose_plan_${orderType.type}`,
+                                },
+                            ]),
+                        },
+                    })
                     break
                 case 'deposite_expired':
-                    await bot.api.sendMessage(result.to, result.message, {
+                    await bot.api.sendMessage(result.message.to, result.message.message, {
                         parse_mode: 'HTML',
-                        reply_markup: addressExpiredMenu,
+                        // reply_markup: addressExpiredMenu, // 会报错，说我没有 use 过这个 menu
+                        reply_markup: {
+                            inline_keyboard: [
+                                [
+                                    {
+                                        text: 'Resend billing address',
+                                        callback_data: 'resend_address',
+                                    },
+                                ],
+                            ],
+                        },
                     })
                     break
                 case 'heartbeat':
                     break
                 default:
-                    if (result.to && result.message) {
-                        await bot.api.sendMessage(result.to, result.message, { parse_mode: 'HTML' })
+                    if (result.message.to && result.message.message) {
+                        await bot.api.sendMessage(result.message.to, result.message.message, { parse_mode: 'HTML' })
                     }
                     break
             }

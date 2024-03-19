@@ -9,6 +9,9 @@ import type { SessionData } from 'src/lib/session'
 import { getPlanMenuText, planMenu } from 'src/menus/plan/plan_menu'
 import { initPolling } from './initializers/init_polling'
 import { apiGetPlans } from '@/api/api'
+import { onResendAddress } from '@/menus/address_expired/address_expired'
+import { replaceMenu } from '@/lib/menu_helper'
+import { getPaymentMenuText, paymentMethodMenu } from '@/menus/payment_method/payment_method_menu'
 
 export type BotContext = Context & SessionFlavor<SessionData> & ParseModeFlavor<Context>
 
@@ -34,6 +37,17 @@ bot.command('start', async (ctx) => {
     ctx.session.orderTypes = (await apiGetPlans()).order_types
     const text = getPlanMenuText()
     await ctx.reply(text, { reply_markup: planMenu })
+})
+bot.callbackQuery('resend_address', async (ctx) => {
+    return onResendAddress(ctx)
+})
+bot.on('callback_query:data', async (ctx) => {
+    if (ctx.callbackQuery.data.startsWith('choose_plan_')) {
+        const type = parseInt(ctx.callbackQuery.data.split('_')[2])
+        ctx.session.orderType = type
+        ctx.session.walletToCancel = undefined
+        await replaceMenu(ctx, getPaymentMenuText(ctx), paymentMethodMenu)
+    }
 })
 
 bot.catch((error) => {
